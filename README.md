@@ -38,7 +38,7 @@
 或查看详细的[插件安装说明](https://qchatgpt.rockchin.top/develop/plugin-intro.html#%E6%8F%92%E4%BB%B6%E7%94%A8%E6%B3%95)
 
 ## 使用
-发送B站视频链接时机器人自动解析链接并发送。
-![b1f4f6b6987b1797e86dee8dbbb129e](https://github.com/user-attachments/assets/d5350e1f-2ea7-4728-8a9a-c72a5dd3f6fb)
+发送B站视频链接时机器人自动解析链接并发送。 
+![b1f4f6b6987b1797e86dee8dbbb129e](https://github.com/user-attachments/assets/d5350e1f-2ea7-4728-8a9a-c72a5dd3f6fb) 
 （事件终于修好了，总算不用通过改群响应规则设置了呜呜呜）
 <!-- 插件开发者自行填写插件使用说明 -->
