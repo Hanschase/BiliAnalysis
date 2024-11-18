@@ -1,4 +1,4 @@
-# HelloPlugin
+# BiliAnalysis
 
 <!--
 ## 插件开发者详阅
@@ -33,10 +33,12 @@
 配置完成 [QChatGPT](https://github.com/RockChinQ/QChatGPT) 主程序后使用管理员账号向机器人发送命令即可安装：
 
 ```
-!plugin get <插件发布仓库地址>
+!plugin get https://github.com/Hanschase/BiliAnalysis
 ```
 或查看详细的[插件安装说明](https://qchatgpt.rockchin.top/develop/plugin-intro.html#%E6%8F%92%E4%BB%B6%E7%94%A8%E6%B3%95)
 
 ## 使用
-
+发送B站视频链接时机器人自动解析链接并发送。
+![b1f4f6b6987b1797e86dee8dbbb129e](https://github.com/user-attachments/assets/d5350e1f-2ea7-4728-8a9a-c72a5dd3f6fb)
+（事件终于修好了，总算不用通过改群响应规则设置了呜呜呜）
 <!-- 插件开发者自行填写插件使用说明 -->
