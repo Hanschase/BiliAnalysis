@@ -38,7 +38,7 @@
 或查看详细的[插件安装说明](https://qchatgpt.rockchin.top/develop/plugin-intro.html#%E6%8F%92%E4%BB%B6%E7%94%A8%E6%B3%95)
 
 ## 使用
-* 参考Google开发者文档，创建一个app并且打开v3 api，记下你的apikey
+* 参考Google开发者文档，创建一个app并且打开v3 api，记下你的apikey  
   [YouTube Data API Overview  |  Google Developers](https://developers.google.com/youtube/v3/getting-started)
 
 > 
