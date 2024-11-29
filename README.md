@@ -33,12 +33,17 @@
 配置完成 [QChatGPT](https://github.com/RockChinQ/QChatGPT) 主程序后使用管理员账号向机器人发送命令即可安装：
 
 ```
-!plugin get https://github.com/Hanschase/BiliAnalysis
+!plugin get https://github.com/Garrise/LangBot_Plugin_YoutubeAnalysis
 ```
 或查看详细的[插件安装说明](https://qchatgpt.rockchin.top/develop/plugin-intro.html#%E6%8F%92%E4%BB%B6%E7%94%A8%E6%B3%95)
 
 ## 使用
-发送B站视频链接时机器人自动解析链接并发送。 <br>
-![b1f4f6b6987b1797e86dee8dbbb129e](https://github.com/user-attachments/assets/d5350e1f-2ea7-4728-8a9a-c72a5dd3f6fb) <br>
-（事件终于修好了，总算不用通过改群响应规则设置了呜呜呜）
+* 参考Google开发者文档，创建一个app并且打开v3 api，记下你的apikey
+  [YouTube Data API Overview  |  Google Developers](https://developers.google.com/youtube/v3/getting-started)
+
+> 
+* 将apikey填入config.py中
+* 插件将会自动识别群聊里的YouTube视频链接并返回视频预览内容等等，包含以下两种：
+  * https://youtu.be/{id}
+  * https://www.youtube.com/watch?v={id}
 <!-- 插件开发者自行填写插件使用说明 -->
