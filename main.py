@@ -10,7 +10,7 @@ from plugins.LangBot_Plugin_YoutubeAnalysis.config import Config
 '''
 
 #注册插件
-@register(name='YoutubeAnalysis', description='当收到油管视频链接时，对该链接进行分析并发送封面，标题，作者，等内容', version='0.2', author="Garrise")
+@register(name='YoutubeAnalysis', description='当收到油管视频链接时，对该链接进行分析并发送封面，标题，作者，等内容', version='0.1', author="Garrise")
 class BiliAnalysisPlugin(BasePlugin):
     #插件加载时触发
     def __init__(self, host: APIHost):
