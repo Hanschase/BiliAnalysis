@@ -50,7 +50,7 @@ class BiliAnalysisPlugin(BasePlugin):
                                                                                                         f"标题：{title}\n",
                                                                                                         f"时间：{publishedAt}\n",
                                                                                                         f"链接：http://youtu.be/{yt_id}\n\n",
-                                                                                                        f"标签：{tagString}\n"
+                                                                                                        f"标签：{tagString}"
                                                                                                         ]))
                 ctx.prevent_default()
                 ctx.prevent_postorder()
