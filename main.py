@@ -18,20 +18,27 @@ class BiliAnalysisPlugin(BasePlugin):
     async def group_normal_message_received(self, ctx: EventContext):
         msg = str(ctx.event.message_chain).strip()
         # 如果msg含有https://www.bilibili.com/video/字段则截取BV号
-        match = re.search(r'https://www.bilibili.com/video/(BV\w+)', msg)
-        if match:
-            bv_id = match.group(1)
+        bv_match = re.search(r'www.bilibili.com/video/(BV\w+)', msg) or re.search(r'b23.tv/(BV\w+)', msg)
+        if bv_match: 
+            id = bv_match.group(1)
+            req = f"bvid={id}"
+        av_match = re.search(r'www.bilibili.com/video/av(\w+)', msg) or re.search(r'b23.tv/av(\w+)', msg)
+        if av_match:
+            id = av_match.group(1)
+            req = f"aid={id}"
+            id = "av" + id
+        if bv_match or av_match:
             # 发送封面，标题，作者等信息
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
             }
-            response = requests.get(f"https://api.bilibili.com/x/web-interface/view?bvid={bv_id}", headers=headers)
+            response = requests.get(f"https://api.bilibili.com/x/web-interface/view?{req}", headers=headers)
             data = response.json()
             if data['code'] == 0:
                 video_data = data['data']
                 cover_url = video_data['pic']
                 author_name = video_data['owner']['name']
-                video_url = "https://www.bilibili.com/video/" + bv_id
+                video_url = "https://www.bilibili.com/video/" + id
                 title = video_data['title']
                 await ctx.send_message(ctx.event.launcher_type, str(ctx.event.launcher_id),MessageChain([
                                                                                                         Image(url=cover_url),
