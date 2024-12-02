@@ -3,14 +3,12 @@ from pkg.plugin.events import *  # 导入事件类
 import re
 import requests
 from pkg.platform.types import *
-from plugins.LangBot_Plugin_YoutubeAnalysis.config import Config
 
 '''
 当收到B站视频链接时，对B站链接进行分析并发送封面，标题，作者，等内容
 '''
-
 #注册插件
-@register(name='YoutubeAnalysis', description='当收到油管视频链接时，对该链接进行分析并发送封面，标题，作者，等内容', version='0.1', author="Garrise")
+@register(name='BiliAnalysis', description='当收到B站视频链接时，对B站链接进行分析并发送封面，标题，作者，等内容', version='0.2', author="Hanschase")
 class BiliAnalysisPlugin(BasePlugin):
     #插件加载时触发
     def __init__(self, host: APIHost):
@@ -19,38 +17,34 @@ class BiliAnalysisPlugin(BasePlugin):
     @handler(GroupMessageReceived)
     async def group_normal_message_received(self, ctx: EventContext):
         msg = str(ctx.event.message_chain).strip()
-        # 如果msg含有youtube.com或https://youtu.be则截取视频id
-        match = re.search(r'www.youtube.com/watch\?v=([\w-]{11})', msg) or re.search(r'youtu.be/([\w-]{11})', msg)
-        if match:
-            yt_id = match.group(1)
-            print(f"Analyzing Youtube id: {yt_id}")
+        # 如果msg含有https://www.bilibili.com/video/字段则截取BV号
+        bv_match = re.search(r'www.bilibili.com/video/(BV\w+)', msg) or re.search(r'b23.tv/(BV\w+)', msg)
+        if bv_match: 
+            id = bv_match.group(1)
+            req = f"bvid={id}"
+        av_match = re.search(r'www.bilibili.com/video/av(\w+)', msg) or re.search(r'b23.tv/av(\w+)', msg)
+        if av_match:
+            id = av_match.group(1)
+            req = f"aid={id}"
+            id = "av" + id
+        if bv_match or av_match:
             # 发送封面，标题，作者等信息
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
             }
-            response = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={yt_id}&key={Config.key}&part=snippet", headers=headers)
+            response = requests.get(f"https://api.bilibili.com/x/web-interface/view?{req}", headers=headers)
             data = response.json()
-            if data['pageInfo']['totalResults'] != 0:
-                snippet = data['items'][0]['snippet']
-                title = snippet['title']
-                description = snippet['description']
-                channelTitle = snippet['channelTitle']
-                thumbnails = snippet['thumbnails']
-                publishedAt = snippet['publishedAt']
-                tagString = ""
-                tags = snippet['tags']
-                if tags:
-                    tagString = ", ".join(tags)
-                else:
-                    tagString = "无"
-                thumbnailUrl = thumbnails['maxres']['url'] if thumbnails['maxres'] else thumbnails['high']['url'] 
+            if data['code'] == 0:
+                video_data = data['data']
+                cover_url = video_data['pic']
+                author_name = video_data['owner']['name']
+                video_url = "https://www.bilibili.com/video/" + id
+                title = video_data['title']
                 await ctx.send_message(ctx.event.launcher_type, str(ctx.event.launcher_id),MessageChain([
-                                                                                                        Image(url=thumbnailUrl),
-                                                                                                        f"频道：{channelTitle}\n",
-                                                                                                        f"标题：{title}\n",
-                                                                                                        f"时间：{publishedAt}\n",
-                                                                                                        f"链接：http://youtu.be/{yt_id}\n\n",
-                                                                                                        f"标签：{tagString}"
+                                                                                                        Image(url=cover_url),
+                                                                                                        f"视频标题：{title}\n",
+                                                                                                        f"UP主：{author_name}\n",
+                                                                                                        f"视频链接：{video_url}"
                                                                                                         ]))
                 ctx.prevent_default()
                 ctx.prevent_postorder()
